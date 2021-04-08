@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from 'react';
 
-function Login() {
+function Login({ setToken }) {
     return (
         <>
             <form>

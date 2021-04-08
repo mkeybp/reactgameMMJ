@@ -1,12 +1,32 @@
+import React, { useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-// function TopScore(props) {
-//     return (
-//         <>
-//             <h1>first place: {props.first}</h1>
-//             <h1>second place: {props.second}</h1>
-//             <h1>third place: {props.third}</h1>
-//         </>
-//     )
-// }
 
-// export default TopScore;
+// import Dashboard from '../Dashboard/Dashboard';
+import Login from './login';
+
+function App() {
+    const [token, setToken] = useState();
+  
+    if(!token) {
+      return <Login setToken={setToken} />
+    }
+  
+    return (
+      <div className="wrapper">
+        <h1>Application</h1>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/dashboard">
+              {/* <Dashboard /> */}
+            </Route>
+            <Route path="/preferences">
+              {/* <Preferences /> */}
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    );
+  }
+  
+  export default App;
