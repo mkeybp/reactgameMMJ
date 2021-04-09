@@ -1,29 +1,46 @@
 import React, { useState } from 'react';
 
-function LoginTest(props) {
+function LoginTest() {
    
-    const username = useFormInput('');
-    const password = useFormInput('');
- 
-    // const handleLogin = () => {
-    //   axios.post('http://jats.web.eadania.dk/authentication/login', { username: username.value, password: password.value })
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-    // }
+    function validateForm() {
+      return username.length > 0 && password.length > 0;
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+    }
+
     return (
-      <div>
-        Login<br /><br />
-        <div>
-          Username<br />
-          <input type="text" {...username} autoComplete="new-password" />
-        </div>
-        <div style={{ marginTop: 10 }}>
-          Password<br />
-          <input type="password" {...password} autoComplete="new-password" />
-        </div>
+      <div className="Login">
+        <form onSubmit={handleSubmit}>
 
-      </div>
+            <label>username</label>
+            <input
+              autoFocus
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+             />
+            <label>Password</label>
+             <input
+               type="password"
+               value={password}
+               onChange={(e) => setPassword(e.target.value)}
+            />
+
+          <button type="submit" disabled={!validateForm()}>
+            Login
+           </button>
+         </form>
+       </div>
     );
+   
+
+    
   }
+
   Login('http://jats.web.eadania.dk/authentication/login', { username: "MMJ", password: "Dreamteam" })
     .then(data => {
         console.log(data); // JSON data parsed by `data.json()` call
@@ -63,6 +80,6 @@ async function Login(url = '', data = {}) {
 
 
   
-export default Login;
+export default LoginTest;
 
 
