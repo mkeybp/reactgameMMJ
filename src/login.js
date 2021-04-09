@@ -44,17 +44,6 @@ function Login() {
 
     
   }
-  const useFormInput = initialValue => {
-    const [value, setValue] = useState(initialValue);
-  
-    const handleChange = e => {
-      setValue(e.target.value);
-    }
-    return {
-      value,
-      onChange: handleChange
-    }
-  }
 
 // Example POST method implementation:
 async function LoginConnect(url = '', data = {}) {
