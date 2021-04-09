@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function LoginTest() {
+function Login() {
    
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -11,6 +11,10 @@ function LoginTest() {
 
     function handleSubmit(event) {
       event.preventDefault();
+      LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password})
+    .then(data => {
+        console.log(data); // JSON data parsed by `data.json()` call
+    });
     }
 
     return (
@@ -40,11 +44,6 @@ function LoginTest() {
 
     
   }
-
-  Login('http://jats.web.eadania.dk/authentication/login', { username: "MMJ", password: "Dreamteam" })
-    .then(data => {
-        console.log(data); // JSON data parsed by `data.json()` call
-    });
   const useFormInput = initialValue => {
     const [value, setValue] = useState(initialValue);
   
@@ -58,7 +57,7 @@ function LoginTest() {
   }
 
 // Example POST method implementation:
-async function Login(url = '', data = {}) {
+async function LoginConnect(url = '', data = {}) {
     // Default options are marked with *
     const response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -80,6 +79,6 @@ async function Login(url = '', data = {}) {
 
 
   
-export default LoginTest;
+export default Login;
 
 
