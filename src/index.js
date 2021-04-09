@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app';
+import GameBrowser from './app';
 import Login from './login';
 
+
  
-ReactDOM.render(<Login/>, document.getElementById('root'));
+ReactDOM.render(<GameBrowser/>, document.getElementById('root'));

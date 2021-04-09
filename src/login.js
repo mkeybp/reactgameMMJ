@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import GameDetails from "./app"
+let logginIn = "";
 
 function Login() {
     let message = document.getElementById("message");
@@ -24,9 +26,12 @@ function Login() {
             .then(data => {
                 console.log(data); // JSON data parsed by `data.json()` call
                 console.log(data.success);
+                logginIn = data.success;
                 if (data.success) {
                     // console.log(errorMessage)
                     message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
+                    <GameDetails    gameId={this.state.selection}
+                    onClose={this.onClose}/>
                 }
                 else {
                     message.innerHTML = "<i style='color:red'>WRONG LOGIN, TRY AGAIN</i>";
