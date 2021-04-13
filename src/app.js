@@ -1,8 +1,11 @@
 import React from "react";
 import Login from './login';
-
+import authToken from "./login";
+import useGameServer from "./useGameServer";
+import onConnectionClosed from "./useGameServer"
 /// CLAllback til login med props
 
+let gameHubUrl = "/gamehub";
 
 class LoggedIn extends React.Component {
   constructor() {
@@ -13,7 +16,7 @@ class LoggedIn extends React.Component {
 
 
   onLogin() {
-    //   // if logged in (token === HAS VALUE)
+    //   // if logged in (token === HAS VALU
     //    this.state.selection === "" 
 
     // if(data.success === true)
@@ -25,6 +28,7 @@ class LoggedIn extends React.Component {
   }
 
   render() {
+    console.log(sessionStorage.key);
     return (
       this.state.selection === "" ?
 
@@ -38,7 +42,6 @@ class LoggedIn extends React.Component {
     );
   }
 }
-
 
 
 function GameWindow(props) {

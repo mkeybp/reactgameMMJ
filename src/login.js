@@ -1,17 +1,21 @@
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
+import { HttpResponse } from '@microsoft/signalr';
 import React, { useState } from 'react';
-import LoggedIn from './app';
-import GameWindow from "./app"
+import { default as onConnectionClosed, default as useGameServer } from "./useGameServer";
 let logginIn = "";
-let tokenId;
+let authToken = "";
+let gameHubUrl = "/gamehub";
+//const authToken = {authToken}
+//export defualt authToken
 
 
 // props her
 function Login(props) {
+    const gameServer = useGameServer(gameHubUrl, authToken, onConnectionClosed);
     let message = document.getElementById("message");
     let errormessage = document.getElementById("errormessage");
 
     // for testing
+    //const [authToken, setAuthToken] = useState("");
     const [username, setUsername] = useState("MMJ");
     const [password, setPassword] = useState("Dreamteam");
     const [error, setError] = useState(null);
@@ -30,13 +34,13 @@ function Login(props) {
         event.preventDefault();
         LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password })
             .then(data => {
-                tokenId = data.data;
+                authToken = data.data;
                 if (data.success) {
-                    // setToken(tokenId)
-                    console.log(tokenId);
+                    setToken(authToken)
+                    console.log(authToken);
+
 
                     // message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
-
                 }
                 else {
                     // message.innerHTML = "<i style='color:red'>WRONG LOGIN, TRY AGAIN</i>";
