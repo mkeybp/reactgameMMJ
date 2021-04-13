@@ -1,8 +1,13 @@
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 import React, { useState } from 'react';
-import GameDetails from "./app"
+import LoggedIn from './app';
+import GameWindow from "./app"
 let logginIn = "";
+let tokenId;
 
-function Login() {
+
+// props her
+function Login(props) {
     let message = document.getElementById("message");
     let errormessage = document.getElementById("errormessage");
 
@@ -10,7 +15,7 @@ function Login() {
     const [username, setUsername] = useState("MMJ");
     const [password, setPassword] = useState("Dreamteam");
     const [error, setError] = useState(null);
-
+    const [token, setToken] = useState("");
 
     // const [username, setUsername] = useState("");
     // const [password, setPassword] = useState("");
@@ -19,30 +24,32 @@ function Login() {
         return username.length > 0 && password.length > 0;
     }
 
+
     function handleSubmit(event) {
         setError(null);
         event.preventDefault();
         LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password })
             .then(data => {
-                console.log(data); // JSON data parsed by `data.json()` call
-                console.log(data.success);
-                logginIn = data.success;
+                tokenId = data.data;
                 if (data.success) {
-                    // console.log(errorMessage)
-                    message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
-                    <GameDetails    gameId={this.state.selection}
-                    onClose={this.onClose}/>
+                    // setToken(tokenId)
+                    console.log(tokenId);
+
+                    // message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
+
                 }
                 else {
-                    message.innerHTML = "<i style='color:red'>WRONG LOGIN, TRY AGAIN</i>";
+                    // message.innerHTML = "<i style='color:red'>WRONG LOGIN, TRY AGAIN</i>";
+                
                 }
-
             })
+
         // .catch(error => {
         //     if (data.success === "true") setError(error.response.data.message);
         //     else setError("Something went wrong. Please try again later.");
         // });
     }
+
 
     return (
         <>
@@ -75,9 +82,9 @@ function Login() {
         </>
     );
 
-
-
 }
+
+
 const useFormInput = initialValue => {
     const [value, setValue] = useState(initialValue);
 
@@ -90,7 +97,6 @@ const useFormInput = initialValue => {
     }
 }
 
-// Example POST method implementation:
 async function LoginConnect(url = '', data = {}) {
     // Default options are marked with *
     const response = await fetch(url, {
@@ -110,6 +116,7 @@ async function LoginConnect(url = '', data = {}) {
     });
     return response.json(); // parses JSON response into native JavaScript objects
 }
+
 
 
 
