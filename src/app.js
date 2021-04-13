@@ -1,5 +1,6 @@
 import React from "react";
 import Login from './login';
+import testToken from "./login";
 import authToken from "./login";
 import useGameServer from "./useGameServer";
 import onConnectionClosed from "./useGameServer"
@@ -14,21 +15,19 @@ class LoggedIn extends React.Component {
     this.onClose = this.onLogin.bind(this);
   }
 
-
   onLogin() {
     //   // if logged in (token === HAS VALU
     //    this.state.selection === "" 
 
-    // if(data.success === true)
+    console.log(authToken)
     // if(Login(tokenId === true))
-    this.setState({ selection: "1" });
+    this.setState({ selection: "0" });
     <Login
      
     />
   }
 
   render() {
-    console.log(sessionStorage.key);
     return (
       this.state.selection === "" ?
 
@@ -42,7 +41,6 @@ class LoggedIn extends React.Component {
     );
   }
 }
-
 
 function GameWindow(props) {
   return (

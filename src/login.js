@@ -1,9 +1,10 @@
 import { HttpResponse } from '@microsoft/signalr';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { default as onConnectionClosed, default as useGameServer } from "./useGameServer";
-let logginIn = "";
-let authToken = "";
-let gameHubUrl = "/gamehub";
+import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
+
+var authToken;
+var gameHubUrl = "http://jats.web.eadania.dk/gamehub";
 //const authToken = {authToken}
 //export defualt authToken
 
@@ -19,7 +20,6 @@ function Login(props) {
     const [username, setUsername] = useState("MMJ");
     const [password, setPassword] = useState("Dreamteam");
     const [error, setError] = useState(null);
-    const [token, setToken] = useState("");
 
     // const [username, setUsername] = useState("");
     // const [password, setPassword] = useState("");
@@ -32,14 +32,12 @@ function Login(props) {
     function handleSubmit(event) {
         setError(null);
         event.preventDefault();
-        LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password })
+        LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password})
             .then(data => {
                 authToken = data.data;
                 if (data.success) {
-                    setToken(authToken)
                     console.log(authToken);
-
-
+                    gameServer.connect();
                     // message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
                 }
                 else {
@@ -53,7 +51,9 @@ function Login(props) {
         //     else setError("Something went wrong. Please try again later.");
         // });
     }
-
+    function testToken(authToken) {
+        console.log(authToken)
+    }
 
     return (
         <>

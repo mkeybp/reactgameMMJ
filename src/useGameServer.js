@@ -1,6 +1,7 @@
 import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useCallback, useEffect, useState } from "react";
 
+
 function useGameServer(gameHubUrl, authToken, onConnectionClosed) {
   const [connection] = useState(
     new HubConnectionBuilder()
