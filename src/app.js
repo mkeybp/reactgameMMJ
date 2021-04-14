@@ -3,7 +3,8 @@ import Login from './login';
 import * as utils from './login';
 import useGameServer from "./useGameServer";
 /// CLAllback til login med props
-
+let authToken = "";
+let gameHubUrl = "http://jats.web.eadania.dk/gamehub"
 
 class LoggedIn extends React.Component {
   constructor() {
@@ -47,12 +48,21 @@ class LoggedIn extends React.Component {
     );
   }
 }
+function error(name) {
+  // alert('Hello ' + name);
+}
 
+function onConnectionClosed() {
+  // var name = prompt('Please enter your name.');
+  // callback(name);
+}
+
+onConnectionClosed();
 
 function GameWindow(props) {
-  // console.log(authToken);
-  // console.log(utils.checkSuccess());
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
+
+  gameServer.connect();
   return (
 
     <>

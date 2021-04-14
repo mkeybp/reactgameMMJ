@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import useGameServer from './useGameServer';
 // import GameWindow from "./app"
 // let logginIn = "";
-let authToken = "";
-let gameHubUrl = "http://jats.web.eadania.dk/gamehub"
+
 let loginSuccess;
 
 // props her
@@ -19,7 +18,7 @@ function Login(props) {
     // const [token, setToken] = useState("");
     // const [username, setUsername] = useState("");
     // const [password, setPassword] = useState("");
-    const gameServer = useGameServer(gameHubUrl, authToken, onConnectionClosed);
+
 
     function validateForm() {
         return username.length > 0 && password.length > 0;
@@ -31,15 +30,13 @@ function Login(props) {
         event.preventDefault();
         LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password })
             .then(data => {
-                authToken = data.data;
-                loginSuccess = data.success;
                 if (data.success) {
                     props.onLogin(data.data);
                     // setToken(tokenId)
-                    console.log(authToken);
+                 
                     // message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
                     
-                    gameServer.connect();
+          
                     
                 }
                 else {
@@ -143,16 +140,7 @@ async function LoginConnect(url = '', data = {}) {
 }
 
 
-function error(name) {
-    // alert('Hello ' + name);
-}
 
-function onConnectionClosed() {
-    // var name = prompt('Please enter your name.');
-    // callback(name);
-}
-
-onConnectionClosed();
 
 export default Login;
 
