@@ -90,24 +90,29 @@ function GameWindow(props) {
     console.log(chatMessage);
   });
   return (
+    <div>
+      <form onSubmit={GameWindow}>
+        
 
-      <div className='msg-footer'>
-        <form
-          className='message-form'
-          onSubmit={this.handleSendMessage}>
-          <div className='input-group'>
-            <input
-              type='text'
-              className='form-control message-input'
-              placeholder='Type something'
-              value={chatMessage}
-              onChange={event => this.setState({ chatMessage: event.target.value})}
-              required
-            />
-          </div>
+    <label>Message</label>
+    <input
+        autoFocus
+        value={chatMessage}
+        onChange={(e) => setChatMessage(e.target.value)}
+        />
+
+    <>
+    <button type="submit" value={chatMessage}>
+                        Send
+           </button>
+
+      <p>
+
+      </p>
+    </>
         </form>
-      </div>
-);
+        </div>
+  );
 }
 
 
