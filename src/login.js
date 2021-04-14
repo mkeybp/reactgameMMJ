@@ -80,9 +80,9 @@ function Login(props) {
                         Login
            </button>
 
-                    <button onClick={checkSuccess}>
+                    {/* <button onClick={checkSuccess}>
                         token Test
-           </button>
+           </button> */}
 
                 </form>
 
