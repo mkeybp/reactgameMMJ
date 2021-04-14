@@ -2,6 +2,7 @@ import React from "react";
 import Login from './login';
 import * as utils from './login';
 import useGameServer from "./useGameServer";
+import Map from "./map";
 
 let gameHubUrl = "http://jats.web.eadania.dk/gamehub"
 
@@ -45,8 +46,14 @@ function GameWindow(props) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
 
   gameServer.connect();
-  gameServer.onEvent("WorldUpdate", response => {
-    console.log(123);
+  gameServer.onEvent("WorldUpdate", response  => {
+    
+  });
+  gameServer.invoke("Chat", String => {
+    String = "123";
+  })
+  gameServer.onEvent("ChatMessage", response  => {
+    console.log(response);
   });
   return (
 
