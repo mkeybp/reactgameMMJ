@@ -3,7 +3,7 @@ import Login from './login';
 import * as utils from './login';
 import useGameServer from "./useGameServer";
 /// CLAllback til login med props
-
+let gameHubUrl = "http://jats.web.eadania.dk/gamehub"
 
 class LoggedIn extends React.Component {
   constructor() {
@@ -49,15 +49,19 @@ class LoggedIn extends React.Component {
 }
 
 
+function onConnectionClosed(probs) {
+  
+}
+
 function GameWindow(props) {
   // console.log(authToken);
   // console.log(utils.checkSuccess());
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
+  gameServer.connect();
   return (
-
     <>
       <button onClick={props.onClose}>X</button>
-
+      
       <p>
 
       </p>
