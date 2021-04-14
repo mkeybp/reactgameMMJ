@@ -3,8 +3,8 @@ import React, { useCallback, useState } from 'react';
 import { default as onConnectionClosed, default as useGameServer } from "./useGameServer";
 import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 
-var authToken;
-var gameHubUrl = "http://jats.web.eadania.dk/gamehub";
+let authToken;
+let gameHubUrl = "http://jats.web.eadania.dk/gamehub";
 //const authToken = {authToken}
 //export defualt authToken
 
@@ -34,10 +34,10 @@ function Login(props) {
         event.preventDefault();
         LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password})
             .then(data => {
-                authToken = data.data;
+                authToken = data.token;
                 if (data.success) {
-                    console.log(authToken);
                     gameServer.connect();
+                    console.log(authToken);
                     // message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
                 }
                 else {
