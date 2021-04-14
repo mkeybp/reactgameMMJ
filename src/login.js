@@ -1,28 +1,25 @@
-import { HttpResponse } from '@microsoft/signalr';
-import React, { useCallback, useState } from 'react';
-import { default as onConnectionClosed, default as useGameServer } from "./useGameServer";
-import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
-
-let authToken;
-let gameHubUrl = "http://jats.web.eadania.dk/gamehub";
-//const authToken = {authToken}
-//export defualt authToken
-
+// import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
+import React, { useState } from 'react';
+import useGameServer from './useGameServer';
+// import GameWindow from "./app"
+// let logginIn = "";
+let authToken = "";
+let gameHubUrl = "http://jats.web.eadania.dk/gamehub"
+let loginSuccess;
 
 // props her
 function Login(props) {
-    const gameServer = useGameServer(gameHubUrl, authToken, onConnectionClosed);
-    let message = document.getElementById("message");
-    let errormessage = document.getElementById("errormessage");
+    // let message = document.getElementById("message");
+    // let errormessage = document.getElementById("errormessage");
 
     // for testing
-    //const [authToken, setAuthToken] = useState("");
     const [username, setUsername] = useState("MMJ");
     const [password, setPassword] = useState("Dreamteam");
-    const [error, setError] = useState(null);
-
+    // const [error, setError] = useState(null);
+    // const [token, setToken] = useState("");
     // const [username, setUsername] = useState("");
     // const [password, setPassword] = useState("");
+    const gameServer = useGameServer(gameHubUrl, authToken, onConnectionClosed);
 
     function validateForm() {
         return username.length > 0 && password.length > 0;
@@ -30,19 +27,24 @@ function Login(props) {
 
 
     function handleSubmit(event) {
-        setError(null);
+        // setError(null);
         event.preventDefault();
-        LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password})
+        LoginConnect('http://jats.web.eadania.dk/authentication/login', { username, password })
             .then(data => {
-                authToken = data.token;
+                authToken = data.data;
+                loginSuccess = data.success;
                 if (data.success) {
-                    gameServer.connect();
+                    // setToken(tokenId)
                     console.log(authToken);
                     // message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
+                    
+                    gameServer.connect();
+                    
                 }
                 else {
                     // message.innerHTML = "<i style='color:red'>WRONG LOGIN, TRY AGAIN</i>";
-                
+          
+
                 }
             })
 
@@ -51,9 +53,8 @@ function Login(props) {
         //     else setError("Something went wrong. Please try again later.");
         // });
     }
-    function testToken(authToken) {
-        console.log(authToken)
-    }
+
+
 
     return (
         <>
@@ -78,6 +79,11 @@ function Login(props) {
                     <button type="submit" disabled={!validateForm()}>
                         Login
            </button>
+
+                    <button onClick={checkSuccess}>
+                        token Test
+           </button>
+
                 </form>
 
                 <p id="message"></p>
@@ -88,6 +94,20 @@ function Login(props) {
 
 }
 
+
+
+export function checkSuccess(props) {
+    // if (loginSuccess === true) {
+    //     console.log(loginSuccess)
+    //     return true;
+    // }
+    // else {
+    //     console.log(loginSuccess)
+    //     return false;
+    // }
+    // return console.log(authToken);
+    return loginSuccess;
+}
 
 const useFormInput = initialValue => {
     const [value, setValue] = useState(initialValue);
@@ -122,7 +142,16 @@ async function LoginConnect(url = '', data = {}) {
 }
 
 
+function error(name) {
+    // alert('Hello ' + name);
+}
 
+function onConnectionClosed() {
+    // var name = prompt('Please enter your name.');
+    // callback(name);
+}
+
+onConnectionClosed();
 
 export default Login;
 

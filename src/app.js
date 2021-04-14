@@ -1,35 +1,34 @@
 import React from "react";
 import Login from './login';
-import testToken from "./login";
-import authToken from "./login";
-import useGameServer from "./useGameServer";
-import onConnectionClosed from "./useGameServer"
+import * as utils from './login';
 /// CLAllback til login med props
 
-let gameHubUrl = "/gamehub";
 
 class LoggedIn extends React.Component {
   constructor() {
     super();
     this.state = { selection: "" };
     this.onClose = this.onLogin.bind(this);
-  }
+  };
 
   onLogin() {
-    //   // if logged in (token === HAS VALU
+    //   // if logged in (token === HAS VALUE)
     //    this.state.selection === "" 
-
-    console.log(authToken)
+    // if(data.success === true)
     // if(Login(tokenId === true))
-    this.setState({ selection: "0" });
-    <Login
-     
-    />
+
+    if (utils.checkSuccess() === true) {
+      this.setState({ selection: "1" });
+    }
+    else{
+    this.setState({ selection: "" });
+    }
   }
 
   render() {
     return (
-      this.state.selection === "" ?
+      // this.state.selection === utils.checkSuccess() ?
+      this.state.selection === "1" ?
 
         <GameWindow
           onClose={this.onClose}
@@ -42,11 +41,19 @@ class LoggedIn extends React.Component {
   }
 }
 
+
+
 function GameWindow(props) {
+  // console.log(authToken);
+  // console.log(utils.checkSuccess());
   return (
+
     <>
       <button onClick={props.onClose}>X</button>
-      <h1>Welcome!!</h1>
+
+      <p>
+
+      </p>
     </>
   );
 }
