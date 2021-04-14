@@ -34,6 +34,7 @@ function Login(props) {
                 authToken = data.data;
                 loginSuccess = data.success;
                 if (data.success) {
+                    props.onLogin(data.data);
                     // setToken(tokenId)
                     console.log(authToken);
                     // message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
