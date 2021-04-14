@@ -1,23 +1,14 @@
 // import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 import React, { useState } from 'react';
 import useGameServer from './useGameServer';
-// import GameWindow from "./app"
-// let logginIn = "";
-
-let loginSuccess;
 
 // props her
 function Login(props) {
-    // let message = document.getElementById("message");
-    // let errormessage = document.getElementById("errormessage");
 
     // for testing
     const [username, setUsername] = useState("MMJ");
     const [password, setPassword] = useState("Dreamteam");
-    // const [error, setError] = useState(null);
-    // const [token, setToken] = useState("");
-    // const [username, setUsername] = useState("");
-    // const [password, setPassword] = useState("");
+
 
 
     function validateForm() {
@@ -92,32 +83,6 @@ function Login(props) {
 
 }
 
-
-
-export function checkSuccess(props) {
-    // if (loginSuccess === true) {
-    //     console.log(loginSuccess)
-    //     return true;
-    // }
-    // else {
-    //     console.log(loginSuccess)
-    //     return false;
-    // }
-    // return console.log(authToken);
-    return loginSuccess;
-}
-
-const useFormInput = initialValue => {
-    const [value, setValue] = useState(initialValue);
-
-    const handleChange = e => {
-        setValue(e.target.value);
-    }
-    return {
-        value,
-        onChange: handleChange
-    }
-}
 
 async function LoginConnect(url = '', data = {}) {
     // Default options are marked with *
