@@ -45,6 +45,9 @@ function GameWindow(props) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
 
   gameServer.connect();
+  gameServer.onEvent("WorldUpdate", response => {
+    console.log(123);
+  });
   return (
 
     <>
@@ -56,6 +59,8 @@ function GameWindow(props) {
     </>
   );
 }
+
+
 
 export default LoggedIn;
 
