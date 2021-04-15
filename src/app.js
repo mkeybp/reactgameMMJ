@@ -75,7 +75,7 @@ function GameWindow(props, event) {
   const [chatMessage, setChatMessage] = useState("");
   gameServer.connect();
   gameServer.onEvent("WorldUpdate", response => {
-    //console.log(response.info);
+    console.log(response);
     //console.log(response.ground);
     props.onDrawGround(response.ground);
     props.onDrawGround(response.clutter);
@@ -128,7 +128,7 @@ function GameWindow(props, event) {
     if(chatMessage === "D")
     {
       gameServer.invoke("MoveDirection", "right")
-      gameServer.onEvent("WorldUpdate", response => {
+            gameServer.onEvent("WorldUpdate", response => {
         console.log(response)
       })
     }
