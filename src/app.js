@@ -4,6 +4,7 @@ import * as utils from './login';
 import useGameServer from "./useGameServer";
 import Map from "./map";
 import React, { useState } from 'react';
+import { sendMessage } from '@microsoft/signalr/dist/esm/Utils';
 
 
 
@@ -69,13 +70,12 @@ function onConnectionClosed() {
 onConnectionClosed();
 
 
-
-function GameWindow(props) {
+function GameWindow(props, event) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
   const [chatMessage, setChatMessage] = useState("");
   gameServer.connect();
   gameServer.onEvent("WorldUpdate", response  => {
-    //console.log(response);
+    console.log(response);
     //console.log(response.ground);
     props.onDrawGround(response.ground);
     props.onDrawGround(response.clutter);
@@ -86,35 +86,66 @@ function GameWindow(props) {
   gameServer.onEvent("ChatMessage", response  => {
     console.log(response);
   });
-  gameServer.invoke("Chat", chatMessage => {
-    console.log(chatMessage);
+  gameServer.onEvent("Combat log", response => {
+    console.log(response);
   });
+
+  Attack(event)
+  {
+    if(event.key === 'x')
+    {
+      alert ("123")
+      gameServer.invoke("Attack")
+    }
+  }
+
+  SendMessage(event)
+  {
+    // if(event.key === 'y')
+    // {
+      gameServer.invoke("Chat", chatMessage)
+    // }
+    // else if (event.key !== 'y')
+    // {
+    //   //gameServer.invoke("Chat", chatMessage)
+    // }
+
+  }
+
   return (
     <div>
-      <form onSubmit={GameWindow}>
-        
-
     <label>Message</label>
     <input
         autoFocus
         value={chatMessage}
         onChange={(e) => setChatMessage(e.target.value)}
+        //onKeyPress={SendMessage}
+        
         />
-
     <>
-    <button type="submit" value={chatMessage}>
+    <button type="submit" value={chatMessage} onClick={SendMessage}>
+      
                         Send
            </button>
-
       <p>
 
       </p>
     </>
-        </form>
+    <div className="grid-container">
+      <img alt="" className="grid-item ground" src="./tiles/tile_01" />
+
+    </div>
         </div>
+
   );
 }
 
+function SendMessage(event) {
+  
+}
+function Attack(event) {
+  
+}
 
 
 export default LoggedIn;
