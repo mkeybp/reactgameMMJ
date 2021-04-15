@@ -89,16 +89,13 @@ function GameWindow(props, event) {
 
     console.log(response);
   });
-  gameServer.onEvent("Combat log", response => {
+  gameServer.onEvent("CombatMessage", response => {
     console.log(response);
   });
 
   Attack(event)
   {
-    if (event.key === 'x') {
-      alert("123")
       gameServer.invoke("Attack")
-    }
   }
 
   SendMessage(event)
