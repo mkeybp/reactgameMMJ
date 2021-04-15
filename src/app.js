@@ -75,7 +75,7 @@ function GameWindow(props, event) {
   const [chatMessage, setChatMessage] = useState("");
   gameServer.connect();
   gameServer.onEvent("WorldUpdate", response => {
-    console.log(response);
+    //console.log(response.info);
     //console.log(response.ground);
     props.onDrawGround(response.ground);
     props.onDrawGround(response.clutter);
@@ -96,9 +96,41 @@ function GameWindow(props, event) {
 
   Attack(event)
   {
-    if(chatMessage !== "")
+    if(chatMessage === "Attack")
     {
       gameServer.invoke("Attack")
+    }
+  }
+
+  Move(event)
+  {
+    if(chatMessage === "W")
+    {
+      gameServer.invoke("MoveDirection", "up")
+      gameServer.onEvent("WorldUpdate", response => {
+        console.log(response)
+      })
+    }
+    if(chatMessage === "S")
+    {
+      gameServer.invoke("MoveDirection", "down")
+      gameServer.onEvent("WorldUpdate", response => {
+        console.log(response)
+      })
+    }
+    if(chatMessage === "A")
+    {
+      gameServer.invoke("MoveDirection", "left")
+      gameServer.onEvent("WorldUpdate", response => {
+        console.log(response)
+      })
+    }
+    if(chatMessage === "D")
+    {
+      gameServer.invoke("MoveDirection", "right")
+      gameServer.onEvent("WorldUpdate", response => {
+        console.log(response)
+      })
     }
   }
 
@@ -173,6 +205,9 @@ function Attack(event) {
 
 }
 
+function Move(params) {
+  
+}
 
 export default LoggedIn;
 
