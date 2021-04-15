@@ -132,7 +132,7 @@ function GameWindow(props, event) {
       </p>
     </>
     <div className="grid-container">
-      <img alt="" className="grid-item ground" src="./tiles/tile_01" />
+      <img alt="" className="grid-item ground" src=".public/tiles/tile_01" />
 
     </div>
         </div>
