@@ -90,12 +90,16 @@ function GameWindow(props, event) {
     console.log(response);
   });
   gameServer.onEvent("CombatMessage", response => {
+    document.getElementById("message").innerHTML = response;
     console.log(response);
   });
 
   Attack(event)
   {
+    if(chatMessage !== "")
+    {
       gameServer.invoke("Attack")
+    }
   }
 
   SendMessage(event)
