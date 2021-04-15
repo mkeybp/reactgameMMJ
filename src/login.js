@@ -52,15 +52,17 @@ function Login(props) {
 
                 <form onSubmit={handleSubmit}>
 
-                    <label>username</label>
+                    <label>Username</label>
                     <input
                         autoFocus
+                        style={{margin:"10px"}}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <label>Password</label>
                     <input
                         type="password"
+                        style={{margin:"10px"}}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
