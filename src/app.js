@@ -19,16 +19,16 @@ class LoggedIn extends React.Component {
   };
 
   onLoggedin(token) {
-    this.setState({ selection: token})
+    this.setState({ selection: token })
   }
-    drawMap(ground, clutter, moveables, effects) {
-    this.setState({selection: ground})
-    this.setState({selection: clutter})
-    this.setState({selection: moveables})
-    this.setState({selection: effects})
+  drawMap(ground, clutter, moveables, effects) {
+    this.setState({ selection: ground })
+    this.setState({ selection: clutter })
+    this.setState({ selection: moveables })
+    this.setState({ selection: effects })
 
 
-}
+  }
   render() {
     return (
       this.state.selection !== "" ?
@@ -42,7 +42,7 @@ class LoggedIn extends React.Component {
 
         /> :
         <Login
-        onLogin={this.onLoggedin}
+          onLogin={this.onLoggedin}
 
         />
     );
@@ -74,7 +74,7 @@ function GameWindow(props, event) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
   const [chatMessage, setChatMessage] = useState("");
   gameServer.connect();
-  gameServer.onEvent("WorldUpdate", response  => {
+  gameServer.onEvent("WorldUpdate", response => {
     console.log(response);
     //console.log(response.ground);
     props.onDrawGround(response.ground);
@@ -83,27 +83,26 @@ function GameWindow(props, event) {
     props.onDrawGround(response.effects);
 
   });
-  gameServer.onEvent("ChatMessage", response  => {
+  gameServer.onEvent("ChatMessage", response => {
+    document.getElementById("message").innerHTML = response;
+
+
     console.log(response);
   });
-  gameServer.onEvent("Combat log", response => {
+  gameServer.onEvent("CombatMessage", response => {
     console.log(response);
   });
 
   Attack(event)
   {
-    if(event.key === 'x')
-    {
-      alert ("123")
       gameServer.invoke("Attack")
-    }
   }
 
   SendMessage(event)
   {
     // if(event.key === 'y')
     // {
-      gameServer.invoke("Chat", chatMessage)
+    gameServer.invoke("Chat", chatMessage)
     // }
     // else if (event.key !== 'y')
     // {
@@ -111,40 +110,63 @@ function GameWindow(props, event) {
     // }
 
   }
+  const container = {
 
+    border: "2px solid #dedede",
+    backgroundColor: "#f1f1f1",
+    borderRadius: "5px",
+    padding: "10px",
+    margin: "10px 0",
+    width: "250px",
+    wordWrap: "break-word",
+  }
+  const darker = {
+    borderColor: "#ccc",
+    backgroundColor: "#ddd"
+  }
   return (
     <div>
-    <label>Message</label>
-    <input
+      <div 
+      // Gets an error on the wordWrap (word-wrap) css property
+// @ts-ignore
+      style={{ ...container }}>
+        {/* <p>Hello. How are you today?</p> */}
+        <p id="message"></p>
+
+      </div>
+
+
+      <label>Message</label>
+      <input
         autoFocus
         value={chatMessage}
         onChange={(e) => setChatMessage(e.target.value)}
-        //onKeyPress={SendMessage}
-        
-        />
-    <>
-    <button type="submit" value={chatMessage} onClick={SendMessage}>
-      
-                        Send
+      //onKeyPress={SendMessage}
+
+      />
+      <>
+        <button type="submit" value={chatMessage} onClick={SendMessage}>
+
+          Send
            </button>
-      <p>
+        <p>
 
-      </p>
-    </>
-    <div className="grid-container">
-      <img alt="" className="grid-item ground" src=".public/tiles/tile_01" />
+        </p>
+      </>
+      <div className="grid-container">
+        <img alt="" className="grid-item ground" src="./tiles/tile_01" />
 
+      </div>
     </div>
-        </div>
 
   );
 }
 
 function SendMessage(event) {
-  
+
 }
 function Attack(event) {
-  
+
 }
 
 
