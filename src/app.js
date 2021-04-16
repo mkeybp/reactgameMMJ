@@ -1,7 +1,6 @@
 import Login from './login';
 import * as utils from './login';
 import useGameServer from "./useGameServer";
-import Map from "./map";
 import React, { useEffect, useState } from 'react';
 import { sendMessage } from '@microsoft/signalr/dist/esm/Utils';
 import "./game.css"
@@ -73,21 +72,48 @@ function onConnectionClosed() {
 
 onConnectionClosed();
 
+
+let numbers = [1, 2, 3];
+
+
+
+
 function GameWindow(props, event) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
   const [chatMessage, setChatMessage] = useState("");
   const [ground, setGround] = useState([])
   // gameServer.connect();
 
-  function connectToServer(){
+  
+  
+  
+  function ImageComponent(props) {
+    return <>{
+      <p>Number: <i>{props.number}</i></p>
+    }</>
+  }
+  
+  function Component(props) {
+    return <>{
+      // ground.map(n => <ImageComponent number={n} />)
+      // numbers.map(n => <p>{n}</p> )
+
+
+      // <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
+
+      // ground.map(n => <img className="grid-item ground"  src="./tiles/tile_{n}" /> )
+      ground.map(n => <img alt="" className="grid-item ground" src={"./tiles/tile_" + n + ".png"} />)
+    }</>
+  }
+  function connectToServer(props) {
     gameServer.connect();
     gameServer.onEvent("WorldUpdate", response => {
       console.log(response);
-      if(response.ground !== undefined)
-      {
+      if (response.ground !== undefined) {
         setGround(response.ground);
+        ground.map(n => <img src={n} />)
       }
-  
+
     });
     gameServer.onEvent("ChatMessage", response => {
       document.getElementById("message").innerHTML = response;
@@ -98,6 +124,8 @@ function GameWindow(props, event) {
     });
 
   }
+
+
 
 
   useEffect(connectToServer, [])
@@ -238,6 +266,7 @@ function GameWindow(props, event) {
     borderColor: "#ccc",
     backgroundColor: "#ddd"
   }
+
   return (
     <>
       {/* LOGOUT BUTTON  */}
@@ -258,7 +287,7 @@ function GameWindow(props, event) {
           // Gets an error on the wordWrap (word-wrap) css property
           // @ts-ignore
           style={{ ...container }}>
-         
+
           <p id="message"></p>
           <label>Message</label>
           <textarea
@@ -281,11 +310,14 @@ function GameWindow(props, event) {
             <p>POSITION Y: <span style={{ margin: "10px" }} id="ypos"></span></p>
           </div>
         </>
-         <div className="grid-container">
+
+        <div className="grid-container">
+        <Component />
+
+          {/* <img alt="" className="grid-item ground" src="./tiles/tile_01.png" /> */}
+          {/* <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
           <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
-          <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
-          <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
-          <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
+          <img alt="" className="grid-item ground" src="./tiles/tile_01.png" /> */}
 
         </div>
       </div>
