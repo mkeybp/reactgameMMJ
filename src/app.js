@@ -2,8 +2,9 @@ import Login from './login';
 import * as utils from './login';
 import useGameServer from "./useGameServer";
 import Map from "./map";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { sendMessage } from '@microsoft/signalr/dist/esm/Utils';
+import "./game.css"
 
 
 
@@ -75,28 +76,33 @@ onConnectionClosed();
 function GameWindow(props, event) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
   const [chatMessage, setChatMessage] = useState("");
-  gameServer.connect();
+  const [ground, setGround] = useState([])
+  // gameServer.connect();
+
+  function connectToServer(){
+    gameServer.connect();
+    gameServer.onEvent("WorldUpdate", response => {
+      console.log(response);
+      if(response.ground !== undefined)
+      {
+        setGround(response.ground);
+      }
+  
+    });
+    gameServer.onEvent("ChatMessage", response => {
+      document.getElementById("message").innerHTML = response;
+      console.log(response);
+    });
+    gameServer.onEvent("CombatMessage", response => {
+      console.log(response);
+    });
+
+  }
 
 
-
-  gameServer.onEvent("WorldUpdate", response => {
-    console.log(response);
-
-    // //console.log(response.ground);
-    // props.onDrawGround(response.ground);
-    // props.onDrawGround(response.clutter);
-    // props.onDrawGround(response.moveables);
-    // props.onDrawGround(response.effects);
+  useEffect(connectToServer, [])
 
 
-  });
-  gameServer.onEvent("ChatMessage", response => {
-    document.getElementById("message").innerHTML = response;
-    console.log(response);
-  });
-  gameServer.onEvent("CombatMessage", response => {
-    console.log(response);
-  });
 
   Attack(event)
   {
@@ -157,6 +163,7 @@ function GameWindow(props, event) {
         }
         )
       }
+
       else if (event.code == 'KeyS') {
         gameServer.invoke("MoveDirection", "down")
         gameServer.onEvent("WorldUpdate", response => {
@@ -186,8 +193,8 @@ function GameWindow(props, event) {
           document.getElementById("ypos").innerHTML = response.info.ypos;
         })
       }
-
     }
+
     );
   }
   SendMessage(event)
@@ -200,6 +207,7 @@ function GameWindow(props, event) {
     document.addEventListener('keydown', function (event) {
       if (event.code == 'Enter') {
         gameServer.invoke("Chat", chatMessage)
+        // setChatMessage=chatMessage("");
       }
     })
 
@@ -273,10 +281,13 @@ function GameWindow(props, event) {
             <p>POSITION Y: <span style={{ margin: "10px" }} id="ypos"></span></p>
           </div>
         </>
-        {/* <div className="grid-container">
+         <div className="grid-container">
+          <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
+          <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
+          <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
           <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
 
-        </div> */}
+        </div>
       </div>
     </>
   );
