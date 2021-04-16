@@ -1,4 +1,3 @@
-// import React from "react";
 import Login from './login';
 import * as utils from './login';
 import useGameServer from "./useGameServer";
@@ -29,6 +28,10 @@ class LoggedIn extends React.Component {
 
 
   }
+
+  //  If disconnect (logout/error) then go to login page
+
+
   render() {
     return (
       this.state.selection !== "" ?
@@ -69,24 +72,34 @@ function onConnectionClosed() {
 
 onConnectionClosed();
 
-
 function GameWindow(props, event) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
   const [chatMessage, setChatMessage] = useState("");
   gameServer.connect();
+
+
+
   gameServer.onEvent("WorldUpdate", response => {
     console.log(response);
+<<<<<<< Updated upstream
     //console.log(response.ground);
     props.onDrawGround(response.ground);
     props.onDrawGround(response.clutter);
     props.onDrawGround(response.moveables);
     props.onDrawGround(response.effects);
+=======
+
+    // //console.log(response.ground);
+    // props.onDrawGround(response.ground);
+    // props.onDrawGround(response.clutter);
+    // props.onDrawGround(response.moveables);
+    // props.onDrawGround(response.effects);
+
+>>>>>>> Stashed changes
 
   });
   gameServer.onEvent("ChatMessage", response => {
     document.getElementById("message").innerHTML = response;
-
-
     console.log(response);
   });
   gameServer.onEvent("CombatMessage", response => {
@@ -95,29 +108,134 @@ function GameWindow(props, event) {
 
   Attack(event)
   {
+<<<<<<< Updated upstream
       gameServer.invoke("Attack")
+=======
+    document.addEventListener('keydown', function (event) {
+      if (event.code == 'Space') {
+        gameServer.invoke("Attack")
+        gameServer.onEvent("WorldUpdate", response => {
+          console.log(response)
+        })
+      }
+    });
   }
+  // w-y
+  //s+y
+  //d+x
+  // a-x
+  Move(event)
+  {
+    // let pushed = "";
+    // document.addEventListener('keydown', function (event) {
+    //   if (event.code == 'KeyW') {
+    //     pushed = "up"
+    //   }
+    //   else if (event.code == 'KeyS') {
+    //     pushed = "down"
+    //   }
+    //   else if (event.code == 'KeyA') {
+    //     pushed = "left"
+    //   }
+    //   else if (event.code == 'KeyD') {
+    //     pushed = "right"
+    //   }
+    //   else if (event.code == 'Space') {
+    //     gameServer.invoke("Attack")
 
+    //   }
+    //   gameServer.invoke("MoveDirection", pushed)
+
+    //   gameServer.onEvent("WorldUpdate", response => {
+    //     console.log(response)
+    //     document.getElementById("biome").innerHTML = response.info.biome;
+    //     document.getElementById("xpos").innerHTML = response.info.xpos;
+    //     document.getElementById("ypos").innerHTML = response.info.ypos;
+    //   }
+    //   )
+    // })
+
+
+
+    document.addEventListener('keydown', function (event) {
+      if (event.code == 'KeyW') {
+        gameServer.invoke("MoveDirection", "up")
+        gameServer.onEvent("WorldUpdate", response => {
+          console.log(response)
+          document.getElementById("biome").innerHTML = response.info.biome;
+          document.getElementById("xpos").innerHTML = response.info.xpos;
+          document.getElementById("ypos").innerHTML = response.info.ypos;
+        }
+        )
+      }
+      else if (event.code == 'KeyS') {
+        gameServer.invoke("MoveDirection", "down")
+        gameServer.onEvent("WorldUpdate", response => {
+          console.log(response)
+          document.getElementById("biome").innerHTML = response.info.biome;
+          document.getElementById("xpos").innerHTML = response.info.xpos;
+          document.getElementById("ypos").innerHTML = response.info.ypos;
+        })
+      }
+
+      else if (event.code == 'KeyA') {
+        gameServer.invoke("MoveDirection", "left")
+        gameServer.onEvent("WorldUpdate", response => {
+          console.log(response)
+          document.getElementById("biome").innerHTML = response.info.biome;
+          document.getElementById("xpos").innerHTML = response.info.xpos;
+          document.getElementById("ypos").innerHTML = response.info.ypos;
+        })
+      }
+
+      else if (event.code == 'KeyD') {
+        gameServer.invoke("MoveDirection", "right")
+        gameServer.onEvent("WorldUpdate", response => {
+          console.log(response)
+          document.getElementById("biome").innerHTML = response.info.biome;
+          document.getElementById("xpos").innerHTML = response.info.xpos;
+          document.getElementById("ypos").innerHTML = response.info.ypos;
+        })
+      }
+
+    }
+    );
+>>>>>>> Stashed changes
+  }
   SendMessage(event)
   {
-    // if(event.key === 'y')
-    // {
-    gameServer.invoke("Chat", chatMessage)
-    // }
-    // else if (event.key !== 'y')
-    // {
-    //   //gameServer.invoke("Chat", chatMessage)
-    // }
 
+    // document.getElementById("myBtn").addEventListener("click", function() {
+    //   gameServer.invoke("Chat", chatMessage)
+    // });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.code == 'Enter') {
+        gameServer.invoke("Chat", chatMessage)
+      }
+    })
+
+  };
+
+
+
+  const playerInfo = {
+    position: "fixed",
+    bottom: "0",
+    backgroundColor: "Darkgray",
+    padding: "10px",
   }
-  const container = {
 
+  const container = {
+    position: "fixed",
+    bottom: "0",
+    right: "0",
     border: "2px solid #dedede",
     backgroundColor: "#f1f1f1",
     borderRadius: "5px",
     padding: "10px",
     margin: "10px 0",
-    width: "250px",
+    width: "350px",
     wordWrap: "break-word",
   }
   const darker = {
@@ -125,42 +243,57 @@ function GameWindow(props, event) {
     backgroundColor: "#ddd"
   }
   return (
-    <div>
-      <div 
-      // Gets an error on the wordWrap (word-wrap) css property
-// @ts-ignore
-      style={{ ...container }}>
-        {/* <p>Hello. How are you today?</p> */}
-        <p id="message"></p>
+    <>
+      {/* LOGOUT BUTTON  */}
+      <button type="submit" onClick={gameServer.disconnect}>Log out</button>
+
+      {/* THE GAME WINDOW*/}
+      <div className="game__window">
+
+
+        {/* {images.map(({ id, tile, flipped, xpos, ypos }) => <img key={id} src={tile} title={flipped} alt={xpos} />)} */}
+
 
       </div>
 
+      {/* THE CHAT WINDOW*/}
+      <div className="chat__window">
+        <div
+          // Gets an error on the wordWrap (word-wrap) css property
+          // @ts-ignore
+          style={{ ...container }}>
+         
+          <p id="message"></p>
+          <label>Message</label>
+          <textarea
+            autoFocus
+            value={chatMessage}
+            onChange={(e) => setChatMessage(e.target.value)}
+          //onKeyPress={SendMessage}
+          />
+          <button type="submit" id="myBtn" value={chatMessage} onClick={gameServer.invoke}>Send</button>
 
-      <label>Message</label>
-      <input
-        autoFocus
-        value={chatMessage}
-        onChange={(e) => setChatMessage(e.target.value)}
-      //onKeyPress={SendMessage}
+        </div>
 
-      />
-      <>
-        <button type="submit" value={chatMessage} onClick={SendMessage}>
+        <>
+          {/* PLAYERINFO */}
+          <div
+            // @ts-ignore
+            style={{ ...playerInfo }}>
+            <p>BIOME: <span style={{ margin: "10px" }} id="biome"></span></p>
+            <p>POSITION X: <span style={{ margin: "10px" }} id="xpos"></span></p>
+            <p>POSITION Y: <span style={{ margin: "10px" }} id="ypos"></span></p>
+          </div>
+        </>
+        {/* <div className="grid-container">
+          <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
 
-          Send
-           </button>
-        <p>
-
-        </p>
-      </>
-      <div className="grid-container">
-        <img alt="" className="grid-item ground" src="./tiles/tile_01" />
-
+        </div> */}
       </div>
-    </div>
-
+    </>
   );
 }
+
 
 function SendMessage(event) {
 
@@ -169,6 +302,12 @@ function Attack(event) {
 
 }
 
+<<<<<<< Updated upstream
+=======
+function Move(params) {
+
+}
+>>>>>>> Stashed changes
 
 export default LoggedIn;
 

@@ -2,13 +2,16 @@
 import React, { useState } from 'react';
 import useGameServer from './useGameServer';
 
+
+
 // props her
 function Login(props) {
 
     // for testing
+    // const [username, setUsername] = useState("");
+    // const [password, setPassword] = useState("");
     const [username, setUsername] = useState("MMJ");
     const [password, setPassword] = useState("Dreamteam");
-
 
 
     function validateForm() {
@@ -24,15 +27,15 @@ function Login(props) {
                 if (data.success) {
                     props.onLogin(data.data);
                     // setToken(tokenId)
-                 
+
                     // message.innerHTML = "<i style='color:green'>YOU ARE NOW LOGGED IN</i>";
-                    
-          
-                    
+
+
+
                 }
                 else {
                     // message.innerHTML = "<i style='color:red'>WRONG LOGIN, TRY AGAIN</i>";
-          
+
 
                 }
             })
@@ -47,6 +50,7 @@ function Login(props) {
 
     return (
         <>
+            {/* { images.map(({ id, tile, flipped, xpos, ypos }) => <img key={id} src={tile} title={flipped} alt={xpos} />)} */}
 
             <div className="Login">
 
@@ -55,14 +59,14 @@ function Login(props) {
                     <label>Username</label>
                     <input
                         autoFocus
-                        style={{margin:"10px"}}
+                        style={{ margin: "10px" }}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <label>Password</label>
                     <input
                         type="password"
-                        style={{margin:"10px"}}
+                        style={{ margin: "10px" }}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
@@ -70,11 +74,6 @@ function Login(props) {
                     <button type="submit" disabled={!validateForm()}>
                         Login
            </button>
-
-                    {/* <button onClick={checkSuccess}>
-                        token Test
-           </button> */}
-
                 </form>
 
                 <p id="message"></p>
