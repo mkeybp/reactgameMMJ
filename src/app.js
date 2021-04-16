@@ -81,13 +81,6 @@ function GameWindow(props, event) {
 
   gameServer.onEvent("WorldUpdate", response => {
     console.log(response);
-<<<<<<< Updated upstream
-    //console.log(response.ground);
-    props.onDrawGround(response.ground);
-    props.onDrawGround(response.clutter);
-    props.onDrawGround(response.moveables);
-    props.onDrawGround(response.effects);
-=======
 
     // //console.log(response.ground);
     // props.onDrawGround(response.ground);
@@ -95,7 +88,6 @@ function GameWindow(props, event) {
     // props.onDrawGround(response.moveables);
     // props.onDrawGround(response.effects);
 
->>>>>>> Stashed changes
 
   });
   gameServer.onEvent("ChatMessage", response => {
@@ -108,9 +100,6 @@ function GameWindow(props, event) {
 
   Attack(event)
   {
-<<<<<<< Updated upstream
-      gameServer.invoke("Attack")
-=======
     document.addEventListener('keydown', function (event) {
       if (event.code == 'Space') {
         gameServer.invoke("Attack")
@@ -200,7 +189,6 @@ function GameWindow(props, event) {
 
     }
     );
->>>>>>> Stashed changes
   }
   SendMessage(event)
   {
@@ -302,12 +290,9 @@ function Attack(event) {
 
 }
 
-<<<<<<< Updated upstream
-=======
 function Move(params) {
 
 }
->>>>>>> Stashed changes
 
 export default LoggedIn;
 
