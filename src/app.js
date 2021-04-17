@@ -1,7 +1,7 @@
 import Login from './login';
 import * as utils from './login';
 import useGameServer from "./useGameServer";
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { sendMessage } from '@microsoft/signalr/dist/esm/Utils';
 import "./game.css"
 
@@ -15,6 +15,7 @@ class LoggedIn extends React.Component {
     this.state = { selection: "" };
     this.onLoggedin = this.onLoggedin.bind(this);
     this.onDrawGround = this.drawMap.bind(this);
+    //this.onDrawMoveables = this.drawMobeables.bind(this);
   };
 
   onLoggedin(token) {
@@ -82,6 +83,8 @@ function GameWindow(props, event) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
   const [chatMessage, setChatMessage] = useState("");
   const [ground, setGround] = useState([])
+  // const [moveables, setMoveables] = useState({id: "", tile: "", flipped: "", xpos: "", ypos: ""})
+  const [moveables, setMoveables] = useState([])
   // gameServer.connect();
 
   
@@ -94,24 +97,47 @@ function GameWindow(props, event) {
   }
   
   function Component(props) {
-    return <>{
+    return <div className="grid-container">{
       // ground.map(n => <ImageComponent number={n} />)
       // numbers.map(n => <p>{n}</p> )
-
+      
 
       // <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
 
       // ground.map(n => <img className="grid-item ground"  src="./tiles/tile_{n}" /> )
-      ground.map(n => <img alt="" className="grid-item ground" src={"./tiles/tile_" + n + ".png"} />)
-    }</>
+
+        ground.map(n => <img alt="" className="grid-item ground" src={"./tiles/tile_" + n + ".png"} />)
+        
+        // <img 
+        // alt=""
+        // id={moveables}
+        // className="grid-item moveable"
+        // style={{left: moveables.xpos, top: moveables.ypos}}
+        // src={"./tiles/tile_" + moveables.map.tile + ".png"}
+
+        
+
+        //  />
+        //moveables.map(tile => <img alt="" className="grid-item moveable" src={"./tiles/tile_" + tile + ".png"} style={{left: 5 * 48 , top: 3 * 48}} id="123" />)
+
+    }
+    </div>
   }
   function connectToServer(props) {
     gameServer.connect();
     gameServer.onEvent("WorldUpdate", response => {
-      console.log(response);
+      //console.log(response);
       if (response.ground !== undefined) {
         setGround(response.ground);
         ground.map(n => <img src={n} />)
+      }
+      if (response.moveables !== undefined) {
+        setMoveables(response.moveables);
+        console.log(moveables)
+        // moveables.map(idn, tile, flipped, xpos, ypos => <img id={idn} style={{left= xpos, top= ypos}} src={tile})
+        moveables.map(tile => <img  src={tile} />)
+        console.log(moveables.map)
+       
       }
 
     });
