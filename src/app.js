@@ -14,12 +14,7 @@ class LoggedIn extends React.Component {
     super();
     this.state = { selection: "" };
     this.onLoggedin = this.onLoggedin.bind(this);
-    this.onDrawInfo = this.drawMap.bind(this);
     this.onDrawGround = this.drawMap.bind(this);
-    this.onDrawClutter = this.drawMap.bind(this);
-    this.onDrawMoveables = this.drawMap.bind(this);
-    this.onDrawEffects = this.drawMap.bind(this);
-
   };
 
   onLoggedin(token) {
@@ -87,21 +82,17 @@ function GameWindow(props, event) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
   const [chatMessage, setChatMessage] = useState("");
   const [ground, setGround] = useState([])
-  const [info, setInfo] = useState("");
-  const [clutter, setClutter] = useState({id: [] , tile: [], flipped: [], xpos: [], ypos: []})
-  const [moveables, setMoveables] = useState("")
-  const [effects, setEffects] = useState("")
   // gameServer.connect();
 
-
-
-
+  
+  
+  
   function ImageComponent(props) {
     return <>{
       <p>Number: <i>{props.number}</i></p>
     }</>
   }
-
+  
   function Component(props) {
     return <>{
       // ground.map(n => <ImageComponent number={n} />)
@@ -111,17 +102,8 @@ function GameWindow(props, event) {
       // <img alt="" className="grid-item ground" src="./tiles/tile_01.png" />
 
       // ground.map(n => <img className="grid-item ground"  src="./tiles/tile_{n}" /> )
-      ground.map(n => <img 
-        alt="" 
-        className="grid-item ground" 
-        src={"./tiles/tile_" + n + ".png"} />)
-
-      clutter.map(s => <img 
-        alt="" 
-        style={{left: 5 , top: 5}}
-        className="grid-item clutter"
-        src={"./tiles/tile_" + s + ".png"} />)
-    </>
+      ground.map(n => <img alt="" className="grid-item ground" src={"./tiles/tile_" + n + ".png"} />)
+    }</>
   }
   function connectToServer(props) {
     gameServer.connect();
@@ -131,21 +113,6 @@ function GameWindow(props, event) {
         setGround(response.ground);
         ground.map(n => <img src={n} />)
       }
-      if (response.clutter !== undefined) {
-        setClutter(response.clutter);
-        clutter.map(s => <img src={s} />)
-      }
-
-
-
-      // if (response.ground !== undefined) {
-      //   setGround(response.ground);
-      //   ground.map(n => <img src={n} />)
-      // }
-      // if (response.ground !== undefined) {
-      //   setGround(response.ground);
-      //   ground.map(n => <img src={n} />)
-      // }
 
     });
     gameServer.onEvent("ChatMessage", response => {
