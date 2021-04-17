@@ -86,11 +86,11 @@ let numbers = [1, 2, 3];
 function GameWindow(props, event) {
   const gameServer = useGameServer(gameHubUrl, props.token, onConnectionClosed);
   const [chatMessage, setChatMessage] = useState("");
-  const [ground, setGround] = useState([])
+  const [ground, setGround] = useState([]);
   const [info, setInfo] = useState("");
-  const [clutter, setClutter] = useState({id: [] , tile: [], flipped: [], xpos: [], ypos: []})
-  const [moveables, setMoveables] = useState("")
-  const [effects, setEffects] = useState("")
+  const [clutter, setClutter] = useState({id: "" , tile: "", flipped: "", xpos: "", ypos: ""});
+  const [moveables, setMoveables] = useState("");
+  const [effects, setEffects] = useState("");
   // gameServer.connect();
 
 
@@ -118,10 +118,12 @@ function GameWindow(props, event) {
 
       clutter.map(s => <img 
         alt="" 
-        style={{left: 5 , top: 5}}
+        style={{left: clutter.xpos , top: clutter.ypos}}
+        
         className="grid-item clutter"
         src={"./tiles/tile_" + s + ".png"} />)
     </>
+    
   }
   function connectToServer(props) {
     gameServer.connect();
@@ -133,7 +135,7 @@ function GameWindow(props, event) {
       }
       if (response.clutter !== undefined) {
         setClutter(response.clutter);
-        clutter.map(s => <img src={s} />)
+        clutter.map(s => <img style={} src={s} />)
       }
 
 
