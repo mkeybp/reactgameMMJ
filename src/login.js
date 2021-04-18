@@ -10,8 +10,8 @@ function Login(props) {
     // for testing
     // const [username, setUsername] = useState("");
     // const [password, setPassword] = useState("");
-    const [username, setUsername] = useState("MMJ");
-    const [password, setPassword] = useState("Dreamteam");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
 
     function validateForm() {
@@ -59,6 +59,7 @@ function Login(props) {
                     <label>Username</label>
                     <input
                         autoFocus
+                        type="username"
                         style={{ margin: "10px" }}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
